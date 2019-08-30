@@ -5,12 +5,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using eGP.Abstration.Domain;
 using GP.Registration.Domain.Events;
+using MediatR;
 
 namespace eGP.Registration.Domain.Organization
 {
     public class Organization: Entity<Guid>, IAggregateRoot
     {
-
         public string Code { get; private set; }
 
         public OrganizationStatus  Status { get; private set; }

@@ -27,6 +27,7 @@ namespace eGP.Abstraction.Application.Behaviors
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             TResponse response = default(TResponse);
+            response = await next();
             return response;
             //try
             //{

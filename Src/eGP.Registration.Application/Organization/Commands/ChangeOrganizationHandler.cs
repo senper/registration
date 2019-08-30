@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using eGP.Registration.Application.Organization.Repository;
+using GP.Registration.Domain.Events;
 using MediatR;
 
 namespace eGP.Registration.Application.Organization.Commands

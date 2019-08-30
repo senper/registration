@@ -7,21 +7,22 @@ using eGP.Abstration.Domain;
 using eGP.Registration.Persistance.Configurations;
 using eGP.Registration.Persistance.EntityModels;
 using eGP.Registration.Persistance.Models;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace eGP.Registration.Persistance.Contexts
 {
     public class RegistrationDbContext : DbContext, IUnitOfWork
     {
-
+        private readonly IMediator _mediator;
 
         public RegistrationDbContext()
         {
          
         }
-        public RegistrationDbContext(DbContextOptions<RegistrationDbContext> options) : base(options)
+        public RegistrationDbContext(DbContextOptions<RegistrationDbContext> options, IMediator mediator) : base(options)
         {
-           
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<OrganizationStructure> OrganizationStructures { get; set; }
@@ -58,16 +59,18 @@ namespace eGP.Registration.Persistance.Contexts
             var id = base.SaveChanges();
             return id;
         }
-        public Task<int> SaveChangesAsync(string userid, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<int> SaveChangesAsync(string userid, CancellationToken cancellationToken = default(CancellationToken))
         {
             BeforeSaving(userid);
-            return base.SaveChangesAsync(cancellationToken);
+            await _mediator.DispatchDomainEventsAsync(this);
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
-        public Task<int> SaveEntitiesAsync(string userid, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<int> SaveEntitiesAsync(string userid, CancellationToken cancellationToken = default(CancellationToken))
         {
             BeforeSaving(userid);
-            return base.SaveChangesAsync(cancellationToken);
+            await _mediator.DispatchDomainEventsAsync(this);
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
