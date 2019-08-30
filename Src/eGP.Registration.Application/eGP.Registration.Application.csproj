@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Organization\DomainEventHandler\OrganizationNameChangeDomainEvent.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Commands\" />
+    <Folder Include="Application\Validations\" />
+    <Folder Include="Application\Queries\" />
+    <Folder Include="DomainEventHandlers\" />
+    <Folder Include="Personnel\Commands\" />
+    <Folder Include="Personnel\Validations\" />
+    <Folder Include="Personnel\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\eGP.Abstraction.Application\eGP.Abstraction.Application.csproj" />
+    <ProjectReference Include="..\eGP.Registration.Domain\eGP.Registration.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
