@@ -29,7 +29,7 @@ namespace eGP.Registration.Domain.Organization
         {
             Name = name;
             ShortName = shortName;
-            AddDomainEvent(new OrganizationNameChangeDomainEvent(this));
+          //  AddDomainEvent(new OrganizationNameChangeDomainEvent(this));
         }
 
         public void ChangeVersion(string version)

@@ -18,10 +18,12 @@ namespace eGP.Registration.Application.Organization.Commands
         IRequestHandler<SetOrganizationProfileCommand, int>
     {
         private readonly IOrganizationRepository _organizationRepository;
+        private readonly IMediator _mediator;
 
-        public ChangeOrganizationHandler(IOrganizationRepository organizationRepository)
+        public ChangeOrganizationHandler(IOrganizationRepository organizationRepository, IMediator mediator)
         {
             _organizationRepository = organizationRepository;
+            _mediator = mediator;
 
         }
         /// <summary>
@@ -35,13 +37,15 @@ namespace eGP.Registration.Application.Organization.Commands
             var currentOrg = _organizationRepository.FindById(request.Id, cancellationToken).Result;
             currentOrg.ChangeName(request.Name, request.ShortName);
             _organizationRepository.ChangeName(currentOrg);
-
+            
             try
             {
-                return await _organizationRepository
+                var result = await _organizationRepository
                     .UnitOfWork
                     .SaveChangesAsync(request.ChangedBy);
-                
+                await _mediator.Publish(new OrganizationNameChangeDomainEvent(currentOrg));
+
+                return result;
             }
             catch (Exception ex)
             {

@@ -62,14 +62,14 @@ namespace eGP.Registration.Persistance.Contexts
         public async Task<int> SaveChangesAsync(string userid, CancellationToken cancellationToken = default(CancellationToken))
         {
             BeforeSaving(userid);
-            await _mediator.DispatchDomainEventsAsync(this);
+           // await _mediator.DispatchDomainEventsAsync(this);
             return await base.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<int> SaveEntitiesAsync(string userid, CancellationToken cancellationToken = default(CancellationToken))
         {
             BeforeSaving(userid);
-            await _mediator.DispatchDomainEventsAsync(this);
+           // await _mediator.DispatchDomainEventsAsync(this);
             return await base.SaveChangesAsync(cancellationToken);
         }
 
